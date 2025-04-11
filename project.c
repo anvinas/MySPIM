@@ -56,7 +56,14 @@ void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
 /* 10 Points */
 int instruction_fetch(unsigned PC,unsigned *Mem,unsigned *instruction)
 {
+    //check if word-lined
+    if ((PC % 4) != 0) {
+        return 1;
+    }
 
+    //assign instruction
+    *instruction = Mem[PC << 2];
+    return 0;
 }
 
 
