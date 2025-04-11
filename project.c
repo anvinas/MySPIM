@@ -62,7 +62,7 @@ int instruction_fetch(unsigned PC,unsigned *Mem,unsigned *instruction)
     }
 
     //assign instruction
-    *instruction = Mem[PC << 2];
+    *instruction = Mem[PC >> 2];
     return 0;
 }
 
