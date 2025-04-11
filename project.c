@@ -50,7 +50,6 @@ void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
     }
 
     *ALUresult = Z;
-    printf("result: %d, Zero: %c", Z, *Zero);
 }
 
 /* instruction fetch */
