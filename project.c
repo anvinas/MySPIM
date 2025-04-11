@@ -16,8 +16,8 @@ void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
         Z = A - B;
         break;
     case 010:
-        //if less than
-        Z = A < B;
+        //if less than signed
+        Z = (signed )A < (signed) B;
         break;
     case 011:
         //if less than unsigned
