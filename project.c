@@ -1,11 +1,56 @@
 #include "spimcore.h"
 
-
 /* ALU */
 /* 10 Points */
 void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
 {
+    int Z = 0;
+    switch (ALUControl)
+    {
+    case 000:
+        //add
+        Z = A + B;
+        break;
+     case 001:
+        //subtract
+        Z = A - B;
+        break;
+    case 010:
+        //if less than
+        Z = A < B;
+        break;
+    case 011:
+        //if less than unsigned
+        Z = A < B;
+        break;
+    case 100:
+        //AND
+        Z = A && B;
+        break;
+    case 101:
+        //OR
+        Z = A || B;
+        break;
+    case 110:
+        //shift left
+        Z = B << 16;
+        break;
+    case 111:
+        //NOT AS
+        Z != A;
+        break;
+    default:
+        break;
+    }
 
+    if(Z == 0) {
+        Zero = "1";
+    } else {
+        Zero = "0";
+    }
+
+    *ALUresult = Z;
+    printf("result: %d, Zero: %c", Z, *Zero);
 }
 
 /* instruction fetch */
