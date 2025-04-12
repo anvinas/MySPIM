@@ -7,35 +7,35 @@ void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
     int Z = 0;
     switch (ALUControl)
     {
-    case 000:
+    case 0:
         //add
         Z = A + B;
         break;
-     case 001:
+     case 1:
         //subtract
         Z = A - B;
         break;
-    case 010:
+    case 2:
         //if less than signed
         Z = (signed )A < (signed) B;
         break;
-    case 011:
+    case 3:
         //if less than unsigned
         Z = A < B;
         break;
-    case 100:
+    case 4:
         //AND
         Z = A && B;
         break;
-    case 101:
+    case 5:
         //OR
         Z = A || B;
         break;
-    case 110:
+    case 6:
         //shift left
         Z = B << 16;
         break;
-    case 111:
+    case 7:
         //NOT AS
         Z = ~A;
         break;
@@ -44,9 +44,9 @@ void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
     }
 
     if(Z == 0) {
-        Zero = "1";
+        *Zero = 1;
     } else {
-        Zero = "0";
+        *Zero = 0;
     }
 
     *ALUresult = Z;
@@ -72,9 +72,9 @@ int instruction_fetch(unsigned PC,unsigned *Mem,unsigned *instruction)
 void instruction_partition(unsigned instruction, unsigned *op, unsigned *r1,unsigned *r2, unsigned *r3, unsigned *funct, unsigned *offset, unsigned *jsec)
 {
     unsigned r = 0;
-    *op = instruction & 0xfc000000; // bits [31-26]
+    *op = (instruction >> 26) & 0x3F; // bits [31-26]
     *r1 = (instruction & 0x3e000000)>> 21; // bits [25-21]
-    *r2 = (instruction & 0x001f00000) >> 16; // bits [20-16]
+    *r2 = (instruction & 0x001f0000) >> 16; // bits [20-16]
     *r3 = (instruction & 0x0000f800) >> 11; // bits [15-11]
     *funct = instruction & 0x0000003f; // bits [5-0]
     *offset = instruction & 0x0000ffff; // bits [15-0]
@@ -205,11 +205,8 @@ void read_register(unsigned r1,unsigned r2,unsigned *Reg,unsigned *data1,unsigne
 /* 10 Points */
 void sign_extend(unsigned offset,unsigned *extended_value)
 {
-    unsigned extend = offset & 0x00008000;
-
-    //if negative
-    if(extend > 1) {
-        *extended_value = extend |  0xffff0000;
+    if (offset & 0x00008000) {
+        *extended_value = offset | 0xffff0000;
     } else {
         *extended_value = offset;
     }
