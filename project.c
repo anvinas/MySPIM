@@ -219,14 +219,18 @@ void sign_extend(unsigned offset,unsigned *extended_value)
 /* 10 Points */
 int ALU_operations(unsigned data1,unsigned data2,unsigned extended_value,unsigned funct,char ALUOp,char ALUSrc,unsigned *ALUresult,char *Zero)
 {
-
+    
 }
 
 /* Read / Write Memory */
 /* 10 Points */
 int rw_memory(unsigned ALUresult,unsigned data2,char MemWrite,char MemRead,unsigned *memdata,unsigned *Mem)
 {
+    if(MemRead) { //if read
 
+    } else if (MemWrite) {//if write 
+
+    }
 }
 
 
@@ -234,13 +238,33 @@ int rw_memory(unsigned ALUresult,unsigned data2,char MemWrite,char MemRead,unsig
 /* 10 Points */
 void write_register(unsigned r2,unsigned r3,unsigned memdata,unsigned ALUresult,char RegWrite,char RegDst,char MemtoReg,unsigned *Reg)
 {
+    //if write
+    if (RegWrite == 0) return;
 
+    if(MemtoReg == 1 && RegDst == 0) { //r2 to mem
+        Reg[r2] = memdata;
+    } else if (MemtoReg == 1 && RegDst == 1){ //r3 to mem
+        Reg[r3] = memdata;
+    } else if (MemtoReg == 0 && RegDst == 0) {// r2 to result
+        Reg[r2] = ALUresult;
+    } else if (MemtoReg == 0 && RegDst == 1) {//r3 to result
+        Reg[r3] = ALUresult;
+    }
 }
 
 /* PC update */
 /* 10 Points */
 void PC_update(unsigned jsec,unsigned extended_value,char Branch,char Jump,char Zero,unsigned *PC)
 {
+    //increment PC
+    *PC += 4;
 
+    if(Branch && Zero) { //if branch
+        *PC += extended_value << 2;
+    } else if(Jump == 1) { //if jump
+        *PC = (*PC & 0xF0000000) | (jsec << 2);
+    }
 }
+
+
 
