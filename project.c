@@ -37,7 +37,7 @@ void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
         break;
     case 111:
         //NOT AS
-        Z != A;
+        Z = ~A;
         break;
     default:
         break;
