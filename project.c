@@ -219,7 +219,42 @@ void sign_extend(unsigned offset,unsigned *extended_value)
 /* 10 Points */
 int ALU_operations(unsigned data1,unsigned data2,unsigned extended_value,unsigned funct,char ALUOp,char ALUSrc,unsigned *ALUresult,char *Zero)
 {
+    unsigned operand2 = (ALUSrc == 1) ? extended_value : data2;
 
+    if (ALUOp == 7) {
+        switch (funct) {
+            case 32: //add
+                ALUOp = 0;
+                break;
+            case 34: //subtract
+                ALUOp = 1;
+                break;
+            case 42: //set less than (signed)
+                ALUOp = 2;
+                break;
+            case 43: //set less than (unsigned)
+                ALUOp = 3;
+                break;
+            case 36: //and
+                ALUOp = 4;
+                break;
+            case 37: //or
+                ALUOp = 5;
+                break;
+            case 4: //shift left logical 
+                ALUOp = 6;
+                break;
+            case 39: //nor
+                ALUOp = 7;
+                break;
+            default:
+                return 1;
+        }
+    }
+
+    ALU(data1, operand2, ALUOp, ALUresult, Zero);
+
+    return 0;
 }
 
 /* Read / Write Memory */
