@@ -219,18 +219,26 @@ void sign_extend(unsigned offset,unsigned *extended_value)
 /* 10 Points */
 int ALU_operations(unsigned data1,unsigned data2,unsigned extended_value,unsigned funct,char ALUOp,char ALUSrc,unsigned *ALUresult,char *Zero)
 {
-    
+
 }
 
 /* Read / Write Memory */
 /* 10 Points */
 int rw_memory(unsigned ALUresult,unsigned data2,char MemWrite,char MemRead,unsigned *memdata,unsigned *Mem)
 {
-    if(MemRead) { //if read
-
-    } else if (MemWrite) {//if write 
-
+    //halt
+    if(ALUresult % 4 != 0) {
+        return 1;
     }
+
+    if(MemRead) { //if read
+       *memdata = Mem[ALUresult >> 2];
+    } else if (MemWrite) {//if write 
+        Mem[ALUresult >> 2] = data2;
+    }
+
+    //when not halt
+    return 0;
 }
 
 
