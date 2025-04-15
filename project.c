@@ -73,9 +73,9 @@ void instruction_partition(unsigned instruction, unsigned *op, unsigned *r1,unsi
 {
     unsigned r = 0;
     *op = (instruction >> 26) & 0x3F; // bits [31-26]
-    *r1 = (instruction & 0x3e000000)>> 21; // bits [25-21]
-    *r2 = (instruction & 0x001f0000) >> 16; // bits [20-16]
-    *r3 = (instruction & 0x0000f800) >> 11; // bits [15-11]
+    *r1 = (instruction >> 21) & 0x1F; // bits [25-21]
+    *r2 = (instruction >> 16) & 0x1F; // bits [20-16]
+    *r3 = (instruction >> 11) & 0x1F; // bits [15-11]
     *funct = instruction & 0x0000003f; // bits [5-0]
     *offset = instruction & 0x0000ffff; // bits [15-0]
     *jsec = instruction & 0x03ffffff; // bits [25-0]
